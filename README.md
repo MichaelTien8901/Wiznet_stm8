@@ -12,8 +12,8 @@ STM8S Discovery Board, switch power to 3.3V(JP1 to 1)
 |SPI-SCK | PC5  | 30    | J1-5 |CN2-6 |
 |SPI-MISO| PC7  | 34    | J1-4 |CN2-10| 
 |SPI_MOSI| PC6  | 33    | J1-3 |CN2-9 |
-|SCSn    | PE5  | 25    | J1-6 |CN2-1 |
-|WIZNET_RESET|PG1| 36   | J2-3 |CN2-12|
+|SCSn    | PG1  | 36    | J1-6 |CN2-12|
+|WIZNET_RESET|PG0| 35   | J2-3 |CN2-11|
 |INTn    | PC4  | 29    | J2-5 |CN2-5|  
 |GND     |      |       | J1-1, J1-2, J2-6 | CN2-7 |
 |3V3     |      |       | J1-7,J1-8,J2-1|CN2-8,CN1-7|
