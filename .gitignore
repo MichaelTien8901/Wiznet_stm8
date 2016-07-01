@@ -31,3 +31,10 @@
 # Debug files
 *.dSYM/
 *.su
+
+#COSMIC C 
+*.sm8
+*.map
+*.s19
+*.chm
+
