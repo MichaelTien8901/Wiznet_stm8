@@ -50,13 +50,13 @@ crtsi.sm8
 
 # Object files list - section reserved for STVD
 #<BEGIN OBJECT_FILES>
+Release\w5500.o
+Release\socket.o
+Release\wizchip_conf.o
 Release\stm8s_clk.o
 Release\stm8s_gpio.o
 Release\stm8s_spi.o
 Release\stm8s_uart2.o
-Release\socket.o
-Release\w5500.o
-Release\wizchip_conf.o
 Release\main.o
 Release\setup.o
 Release\stm8s_it.o

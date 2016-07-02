@@ -222,7 +222,7 @@ String.6.0=2012,6,22,10,19,51
 [Root.Source Files]
 ElemType=Folder
 PathName=Source Files
-Child=Root.Source Files.Source Files\FWLIB
+Child=Root.Source Files.Source Files\Ethernet
 Next=Root.Include Files
 Config.0=Root.Source Files.Config.0
 Config.1=Root.Source Files.Config.1
@@ -293,11 +293,36 @@ String.4.0=
 String.5.0=
 String.6.0=2012,6,22,10,19,51
 
+[Root.Source Files.Source Files\Ethernet]
+ElemType=Folder
+PathName=Source Files\Ethernet
+Child=Root.Source Files.Source Files\Ethernet.Source Files\Ethernet\W5500
+Next=Root.Source Files.Source Files\FWLIB
+
+[Root.Source Files.Source Files\Ethernet.Source Files\Ethernet\W5500]
+ElemType=Folder
+PathName=Source Files\Ethernet\W5500
+Child=Root.Source Files.Source Files\Ethernet.Source Files\Ethernet\W5500.ethernet\w5500\w5500.c
+Next=Root.Source Files.Source Files\Ethernet.ethernet\socket.c
+
+[Root.Source Files.Source Files\Ethernet.Source Files\Ethernet\W5500.ethernet\w5500\w5500.c]
+ElemType=File
+PathName=ethernet\w5500\w5500.c
+
+[Root.Source Files.Source Files\Ethernet.ethernet\socket.c]
+ElemType=File
+PathName=ethernet\socket.c
+Next=Root.Source Files.Source Files\Ethernet.ethernet\wizchip_conf.c
+
+[Root.Source Files.Source Files\Ethernet.ethernet\wizchip_conf.c]
+ElemType=File
+PathName=ethernet\wizchip_conf.c
+
 [Root.Source Files.Source Files\FWLIB]
 ElemType=Folder
 PathName=Source Files\FWLIB
 Child=Root.Source Files.Source Files\FWLIB.fw\src\stm8s_clk.c
-Next=Root.Source Files.ethernet\socket.c
+Next=Root.Source Files.main.c
 
 [Root.Source Files.Source Files\FWLIB.fw\src\stm8s_clk.c]
 ElemType=File
@@ -317,21 +342,6 @@ Next=Root.Source Files.Source Files\FWLIB.fw\src\stm8s_uart2.c
 [Root.Source Files.Source Files\FWLIB.fw\src\stm8s_uart2.c]
 ElemType=File
 PathName=fw\src\stm8s_uart2.c
-
-[Root.Source Files.ethernet\socket.c]
-ElemType=File
-PathName=ethernet\socket.c
-Next=Root.Source Files.ethernet\w5500\w5500.c
-
-[Root.Source Files.ethernet\w5500\w5500.c]
-ElemType=File
-PathName=ethernet\w5500\w5500.c
-Next=Root.Source Files.ethernet\wizchip_conf.c
-
-[Root.Source Files.ethernet\wizchip_conf.c]
-ElemType=File
-PathName=ethernet\wizchip_conf.c
-Next=Root.Source Files.main.c
 
 [Root.Source Files.main.c]
 ElemType=File
@@ -360,7 +370,7 @@ PathName=stm8s_it.c
 [Root.Include Files]
 ElemType=Folder
 PathName=Include Files
-Child=Root.Include Files.Include Files\FWLIB
+Child=Root.Include Files.Include Files\Ethernet
 Config.0=Root.Include Files.Config.0
 Config.1=Root.Include Files.Config.1
 
@@ -430,24 +440,34 @@ String.4.0=
 String.5.0=
 String.6.0=2012,6,22,10,19,51
 
+[Root.Include Files.Include Files\Ethernet]
+ElemType=Folder
+PathName=Include Files\Ethernet
+Child=Root.Include Files.Include Files\Ethernet.Include Files\Ethernet\W5500
+Next=Root.Include Files.Include Files\FWLIB
+
+[Root.Include Files.Include Files\Ethernet.Include Files\Ethernet\W5500]
+ElemType=Folder
+PathName=Include Files\Ethernet\W5500
+Child=Root.Include Files.Include Files\Ethernet.Include Files\Ethernet\W5500.ethernet\w5500\w5500.h
+Next=Root.Include Files.Include Files\Ethernet.ethernet\socket.h
+
+[Root.Include Files.Include Files\Ethernet.Include Files\Ethernet\W5500.ethernet\w5500\w5500.h]
+ElemType=File
+PathName=ethernet\w5500\w5500.h
+
+[Root.Include Files.Include Files\Ethernet.ethernet\socket.h]
+ElemType=File
+PathName=ethernet\socket.h
+Next=Root.Include Files.Include Files\Ethernet.ethernet\wizchip_conf.h
+
+[Root.Include Files.Include Files\Ethernet.ethernet\wizchip_conf.h]
+ElemType=File
+PathName=ethernet\wizchip_conf.h
+
 [Root.Include Files.Include Files\FWLIB]
 ElemType=Folder
 PathName=Include Files\FWLIB
-Next=Root.Include Files.ethernet\socket.h
-
-[Root.Include Files.ethernet\socket.h]
-ElemType=File
-PathName=ethernet\socket.h
-Next=Root.Include Files.ethernet\w5500\w5500.h
-
-[Root.Include Files.ethernet\w5500\w5500.h]
-ElemType=File
-PathName=ethernet\w5500\w5500.h
-Next=Root.Include Files.ethernet\wizchip_conf.h
-
-[Root.Include Files.ethernet\wizchip_conf.h]
-ElemType=File
-PathName=ethernet\wizchip_conf.h
 Next=Root.Include Files.setup.h
 
 [Root.Include Files.setup.h]
