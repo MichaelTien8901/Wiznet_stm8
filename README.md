@@ -1,5 +1,14 @@
 # Wiznet_stm8
-Test Wiznet with stm8
+STM8 with WIZ550io 
+This project add STM8 with WIZ550io for Ethernet connection.  
+
+## Referred Project
+
+[This project referred to this project using STM32 to connect WIZ500](http://www.carminenoviello.com/2015/08/28/adding-ethernet-connectivity-stm32-nucleo/) 
+
+## C compiler
+
+Use the free version of COSMIC C compiler for STM8.  
 
 ## IO Library 
 The IO libray used is from [https://github.com/Wiznet/ioLibrary_Driver](https://github.com/Wiznet/ioLibrary_Driver)
@@ -8,17 +17,19 @@ The IO libray used is from [https://github.com/Wiznet/ioLibrary_Driver](https://
 STM8S Discovery Board, switch power to 3.3V(JP1 to 1)
 
 | Signal | STM8 |CPU Pin|WIZNET|DISCOVERY BOARD|
-|--------|------|-------|------|------|
-|SPI-SCK | PC5  | 30    | J1-5 |CN2-6 |
-|SPI-MISO| PC7  | 34    | J1-4 |CN2-10| 
-|SPI_MOSI| PC6  | 33    | J1-3 |CN2-9 |
-|SCSn    | PG1  | 36    | J1-6 |CN2-12|
-|WIZNET_RESET|PG0| 35   | J2-3 |CN2-11|
-|INTn    | PC4  | 29    | J2-5 |CN2-5|  
-|GND     |      |       | J1-1, J1-2, J2-6 | CN2-7 |
-|3V3     |      |       | J1-7,J1-8,J2-1|CN2-8,CN1-7|
+|--------|------|-------|------|---------------|
+|SPI-SCK | PC5  | 30    | J1-5 |CN2-6          |
+|SPI-MISO| PC7  | 34    | J1-4 |CN2-10         | 
+|SPI_MOSI| PC6  | 33    | J1-3 |CN2-9          |
+|SCSn    | PG1  | 36    | J1-6 |CN2-12         |
+|WIZNET_RESET|PG0| 35   | J2-3 |CN2-11         |
+|INTn(*not Used) | PC4  | 29    | J2-5 |CN2-5          |  Not used
+|GND     |      |       | J1-1, J1-2, J2-6 |CN2-7      |
+|3V3     |      |       | J1-7,J1-8,J2-1   |CN2-8,CN1-7|
 
-STM8S207C8 Board
+
+
+STM8S207C8 Board used for private project. 
 
 | Signal | STM8 |CPU Pin|WIZNET|IC-PIN|
 |--------|------|-------|------|------|
