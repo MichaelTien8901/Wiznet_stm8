@@ -1,10 +1,13 @@
 # Wiznet_stm8
 STM8 with WIZ550io 
-This project add STM8 with WIZ550io for Ethernet connection.  
+This project add STM8 with WIZ550io for Ethernet connection. 
+
+## Hardware 
+STM8S Discovery board and WIZ550io.  An optional RS232 adapter is used for debugging purpose.
 
 ## Referred Project
 
-[This project referred to this project using STM32 to connect WIZ500](http://www.carminenoviello.com/2015/08/28/adding-ethernet-connectivity-stm32-nucleo/) 
+The main program and settings of SPI is from [this project using STM32 to connect WIZ500](http://www.carminenoviello.com/2015/08/28/adding-ethernet-connectivity-stm32-nucleo/) 
 
 ## C compiler
 
@@ -12,6 +15,8 @@ Use the free version of COSMIC C compiler for STM8.
 
 ## IO Library 
 The IO libray used is from [https://github.com/Wiznet/ioLibrary_Driver](https://github.com/Wiznet/ioLibrary_Driver)
+
+Some changes are necessary because of name conflicts.
 
 ## PINs Used
 STM8S Discovery Board, switch power to 3.3V(JP1 to 1)
