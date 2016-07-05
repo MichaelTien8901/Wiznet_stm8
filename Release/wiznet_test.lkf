@@ -50,6 +50,7 @@ crtsi.sm8
 
 # Object files list - section reserved for STVD
 #<BEGIN OBJECT_FILES>
+Release\loopback.o
 Release\w5500.o
 Release\socket.o
 Release\wizchip_conf.o
@@ -61,6 +62,7 @@ Release\main.o
 Release\setup.o
 Release\stm8s_it.o
 Release\test1.o
+Release\test2.o
 #<END OBJECT_FILES>
 
 
