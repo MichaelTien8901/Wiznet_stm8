@@ -16,21 +16,27 @@
 #include "setup.h"
 #include "wizchip_conf.h"
 #include "socket.h"
-
+#define TEST1
+//#define TEST2
+//#define TEST3
+//#define TEST4
+#if defined(TEST1)
+void socket_test(int16_t port);
+#elif defined(TEST2)
+void loop_server_test(int16_t port);
+#elif defined(TEST3)
+void loop_client_test(int16_t port);
+#elif defined(TEST4)
+void http_server_test(int16_t port);
+#endif
 /* Private defines -----------------------------------------------------------*/
 #define SEPARATOR            "=============================================\r\n"
-#define WELCOME_MSG  		 "Welcome to STM32Nucleo Ethernet configuration\r\n"
+#define WELCOME_MSG  		 "Welcome to STM8 Ethernet configuration\r\n"
 #define NETWORK_MSG  		 "Network configuration:\r\n"
 #define IP_MSG 		 		 "  IP ADDRESS:  %d.%d.%d.%d\r\n"
-#define NETMASK_MSG	         "  NETMASK:     %d.%d.%d.%d\r\n"
+#define NETMASK_MSG	       "  NETMASK:     %d.%d.%d.%d\r\n"
 #define GW_MSG 		 		 "  GATEWAY:     %d.%d.%d.%d\r\n"
 #define MAC_MSG		 		 "  MAC ADDRESS: %x:%x:%x:%x:%x:%x\r\n"
-#define GREETING_MSG 		 "Well done guys! Welcome to the IoT world. Bye!\r\n"
-#define CONN_ESTABLISHED_MSG "Connection established with remote IP: %d.%d.%d.%d:%u\r\n"
-#define SENT_MESSAGE_MSG	 "Sent a message. Let's close the socket!\r\n"
-#define WRONG_RETVAL_MSG	 "Something went wrong; return value: %d\r\n"
-#define WRONG_STATUS_MSG	 "Something went wrong; STATUS: %d\r\n"
-#define LISTEN_ERR_MSG		 "LISTEN Error!\r\n"
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -88,17 +94,41 @@ void SerialPutString(char *s)
 extern void SerialPutString(char *s);
 #define PRINT_STR SerialPutString
 
-#define PRINT_NETINFO(netInfo) do { 					\
-  PRINT_STR (NETWORK_MSG); \
-  sprintf(msg, MAC_MSG, (uint16_t) netInfo.mac[0], (uint16_t) netInfo.mac[1], (uint16_t) netInfo.mac[2], (uint16_t) netInfo.mac[3], (uint16_t) netInfo.mac[4], (uint16_t) netInfo.mac[5]);\
-  PRINT_STR( msg ); \
-  sprintf(msg, IP_MSG, (uint16_t) netInfo.ip[0], (uint16_t) netInfo.ip[1], (uint16_t) netInfo.ip[2], (uint16_t) netInfo.ip[3]);			\
-  PRINT_STR( msg ); \
-  sprintf(msg, NETMASK_MSG, (uint16_t) netInfo.sn[0], (uint16_t) netInfo.sn[1], (uint16_t) netInfo.sn[2], (uint16_t) netInfo.sn[3]);	\
-  PRINT_STR( msg ); \
-  sprintf(msg, GW_MSG, (uint16_t) netInfo.gw[0], (uint16_t) netInfo.gw[1], (uint16_t) netInfo.gw[2], (uint16_t) netInfo.gw[3]);			\
-  PRINT_STR( msg ); \
-  } while(0)
+void print_netinfo(wiz_NetInfo netInfo) 
+{
+   char msg[60];
+   PRINT_STR (NETWORK_MSG); 
+   sprintf(msg, 
+      MAC_MSG, 
+      (uint16_t) netInfo.mac[0], 
+      (uint16_t) netInfo.mac[1], 
+      (uint16_t) netInfo.mac[2], 
+      (uint16_t) netInfo.mac[3], 
+      (uint16_t) netInfo.mac[4], 
+      (uint16_t) netInfo.mac[5]);
+   PRINT_STR( msg ); 
+   sprintf(msg, 
+      IP_MSG, 
+      (uint16_t) netInfo.ip[0], 
+      (uint16_t) netInfo.ip[1], 
+      (uint16_t) netInfo.ip[2], 
+      (uint16_t) netInfo.ip[3]);
+   PRINT_STR( msg ); 
+   sprintf(msg, 
+      NETMASK_MSG, 
+      (uint16_t) netInfo.sn[0], 
+      (uint16_t) netInfo.sn[1], 
+      (uint16_t) netInfo.sn[2], 
+      (uint16_t) netInfo.sn[3]);
+   PRINT_STR( msg ); 
+   sprintf(msg, 
+      GW_MSG, 
+      (uint16_t) netInfo.gw[0], 
+      (uint16_t) netInfo.gw[1], 
+      (uint16_t) netInfo.gw[2], 
+      (uint16_t) netInfo.gw[3]);
+   PRINT_STR( msg ); 
+}
 
 
 void HAL_Delay(uint16_t count)
@@ -111,10 +141,16 @@ void HAL_Delay(uint16_t count)
       }
    }
 }
+void reset_wiznet(void)
+{
+   CLR_WIZNET_RST;
+   HAL_Delay(2);
+   SET_WIZNET_RST;
+   HAL_Delay(10); // need some time after reset 
+}
 void main(void)
 {
-   char msg[60];   
-   wiz_NetInfo netInfo = { {0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef},	// Mac address
+   wiz_NetInfo netInfo = {{0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef},	// Mac address
                            {192, 168, 1, 192},					// IP address
                            {255, 255, 255, 0},					// Subnet mask
                            {192, 168, 1, 254}};					// Gateway address
@@ -123,16 +159,11 @@ void main(void)
 //                          .ip 	= {192, 168, 2, 192},					// IP address
 //                          .sn 	= {255, 255, 255, 0},					// Subnet mask
 //                          .gw 	= {192, 168, 2, 1}};					// Gateway address
-  uint8_t retVal, sockStatus;
-  int16_t rcvLen;
-   uint8_t rcvBuf[20], bufSize[] = {2, 2, 2, 2};
-   
+   uint8_t bufSize[] = {2, 2, 2, 2};
+   int port_no = 5000;
    HardwareSetup();
    // reset WIZNET chip
-   CLR_WIZNET_RST;
-   HAL_Delay(2);
-   SET_WIZNET_RST;
-   HAL_Delay(10);
+   reset_wiznet();
    
    // setup WIZ550io
    reg_wizchip_cs_cbfunc( wiznet_sel, wiznet_desel );
@@ -141,51 +172,16 @@ void main(void)
    wizchip_init(bufSize, bufSize);
    wizchip_setnetinfo(&netInfo);
    wizchip_getnetinfo(&netInfo);   
-   PRINT_NETINFO(netInfo);
-
-   while(1) {
-      // reconnect:
-      /* Open socket 0 as TCP_SOCKET with port 5000 */
-      if((retVal = socket(0, Sn_MR_TCP, 5000, 0)) == 0) {
-        /* Put socket in LISTEN mode. This means we are creating a TCP server */
-         if((retVal = listen(0)) == SOCK_OK) {
-           /* While socket is in LISTEN mode we wait for a remote connection */
-            while(sockStatus = getSn_SR(0) == SOCK_LISTEN)
-               HAL_Delay(50);
-            /* OK. Got a remote peer. Let's send a message to it */
-            while(1) {
-               /* If connection is ESTABLISHED with remote peer */
-               if(sockStatus = getSn_SR(0) == SOCK_ESTABLISHED) {
-               uint8_t remoteIP[4];
-               uint16_t remotePort;
-                 /* Retrieving remote peer IP and port number */
-                  getsockopt(0, SO_DESTIP, remoteIP);
-                  getsockopt(0, SO_DESTPORT, (uint8_t*)&remotePort);
-                  sprintf(msg, CONN_ESTABLISHED_MSG, (uint16_t) remoteIP[0], (uint16_t) remoteIP[1], (uint16_t) remoteIP[2], (uint16_t) remoteIP[3], remotePort);
-                  PRINT_STR(msg);
-                  /* Let's send a welcome message and closing socket */
-                  if(retVal = send(0, GREETING_MSG, strlen(GREETING_MSG)) == (int16_t)strlen(GREETING_MSG))
-                     PRINT_STR(SENT_MESSAGE_MSG);
-                  else { /* Ops: something went wrong during data transfer */
-                     sprintf(msg, WRONG_RETVAL_MSG, retVal);
-                     PRINT_STR(msg);
-                  }
-               } else { /* Something went wrong with remote peer, maybe the connection was closed unexpectedly */
-                  sprintf(msg, WRONG_STATUS_MSG, sockStatus);
-                  PRINT_STR(msg);
-               }
-               break;
-            }
-         } else /* Ops: socket not in LISTEN mode. Something went wrong */
-           PRINT_STR(LISTEN_ERR_MSG);
-      } else { /* Can't open the socket. This means something is wrong with W5100 configuration: maybe SPI issue? */
-         sprintf(msg, WRONG_RETVAL_MSG, retVal);
-         PRINT_STR(msg);
-      }   
-      /* We close the socket and start a connection again */
-      disconnect(0);
-      close(0);  
-   }
+   print_netinfo(netInfo);
+#if defined(TEST1)
+   socket_test(port_no);
+#elif defined(TEST2)
+   loop_server_test(port_no);
+#elif defined(TEST3)
+   loop_client_test(port_no);
+#elif defined(TEST4)
+   http_server_test(port_no);
+#endif   
 }
     
 #ifdef USE_FULL_ASSERT

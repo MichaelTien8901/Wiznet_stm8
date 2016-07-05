@@ -60,6 +60,7 @@ Release\stm8s_uart2.o
 Release\main.o
 Release\setup.o
 Release\stm8s_it.o
+Release\test1.o
 #<END OBJECT_FILES>
 
 

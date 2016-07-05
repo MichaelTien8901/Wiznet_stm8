@@ -60,6 +60,7 @@ Debug\stm8s_uart2.o
 Debug\main.o
 Debug\setup.o
 Debug\stm8s_it.o
+Debug\test1.o
 #<END OBJECT_FILES>
 
 

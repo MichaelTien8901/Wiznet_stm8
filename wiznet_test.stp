@@ -366,6 +366,11 @@ Next=Root.Source Files.stm8s_it.c
 [Root.Source Files.stm8s_it.c]
 ElemType=File
 PathName=stm8s_it.c
+Next=Root.Source Files.test1.c
+
+[Root.Source Files.test1.c]
+ElemType=File
+PathName=test1.c
 
 [Root.Include Files]
 ElemType=Folder
