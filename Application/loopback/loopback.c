@@ -114,7 +114,13 @@ int32_t loopback_tcpc(uint8_t sn, uint8_t* buf, uint8_t* destip, uint16_t destpo
          if(getSn_IR(sn) & Sn_IR_CON)	// Socket n interrupt register mask; TCP CON interrupt = connection with peer is successful
          {
 #ifdef _LOOPBACK_DEBUG_
-			sprintf(msg, "%d:Connected to - %d.%d.%d.%d : %d\r\n",sn, destip[0], destip[1], destip[2], destip[3], destport);
+			sprintf(msg, "%d:Connected to - %d.%d.%d.%d : %u\r\n",
+            (int16_t) sn, 
+            (int16_t) destip[0], 
+            (int16_t) destip[1], 
+            (int16_t) destip[2], 
+            (int16_t) destip[3], 
+            destport);
          PRINT_STR(msg);
 #endif
 			setSn_IR(sn, Sn_IR_CON);  // this interrupt should be write the bit cleared to '1'
@@ -152,14 +158,20 @@ int32_t loopback_tcpc(uint8_t sn, uint8_t* buf, uint8_t* destip, uint16_t destpo
 #endif
          if((ret=disconnect(sn)) != SOCK_OK) return ret;
 #ifdef _LOOPBACK_DEBUG_
-         sprintf(msg, "%d:Socket Closed\r\n", sn);
+         sprintf(msg, "%d:Socket Closed\r\n", (int16_t) sn);
          PRINT_STR(msg);
 #endif
          break;
 
       case SOCK_INIT :
 #ifdef _LOOPBACK_DEBUG_
-    	 sprintf(msg, "%d:Try to connect to the %d.%d.%d.%d : %d\r\n", sn, destip[0], destip[1], destip[2], destip[3], destport);
+    	 sprintf(msg, "%d:Try to connect to the %d.%d.%d.%d : %d\r\n", 
+         (int16_t) sn, 
+         (int16_t) destip[0], 
+         (int16_t) destip[1], 
+         (int16_t) destip[2], 
+         (int16_t) destip[3], 
+         (int16_t) destport);
        PRINT_STR(msg);
 #endif
     	 if( (ret = connect(sn, destip, destport)) != SOCK_OK) return ret;	//	Try to TCP connect to the TCP server (destination)

@@ -21,3 +21,12 @@ void loop_tcp_server_test(int16_t port)
    while(1) 
       loopback_tcps(0, buffer, port);
 }
+void loop_tcp_client_test(uint8_t *destip, int16_t destport)
+{
+   uint8_t buffer[DATA_BUF_SIZE];
+   
+   PRINT_STR( "TCP Client Test\r\n" );
+   while(1) {
+      loopback_tcpc(0, buffer, destip, destport);
+   }
+}
