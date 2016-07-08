@@ -17,9 +17,14 @@ Use the free version of COSMIC C compiler for STM8.
 The IO libray used is from [https://github.com/Wiznet/ioLibrary_Driver](https://github.com/Wiznet/ioLibrary_Driver)
 
 Some changes are necessary because of name conflicts.
-## Test
+## Tests
+### Test 1 Basic Socket 
 Use telnet to connect to defined IP and port.  In this example, connect to 192.168.1.192 port 5000.  The telnet client will receive a message and port closed.
-
+### Test 2 TCP Server
+### Test 3 TCP Client
+### Test 4 Ping Client
+  For porting to other MCU, Ping.c need define Endian correctly for the function htons.  STM8 is Big Endian, so nothing is needed to do.  For STM32, ATMEGA, you will need to define LITTLE_ENDIAN.  
+  
 ## PINs Used
 STM8S Discovery Board, switch power to 3.3V(JP1 to 1)
 
