@@ -18,16 +18,17 @@
 #include "socket.h"
 //#define TEST1
 //#define TEST2
-#define TEST3
-//#define TEST4
+//#define TEST3
+#define TEST4
 #if defined(TEST1)
-void socket_test(int16_t port);
+extern void socket_test(int16_t port);
 #elif defined(TEST2)
-void loop_tcp_server_test(int16_t port);
+extern void loop_tcp_server_test(int16_t port);
 #elif defined(TEST3)
-void loop_tcp_client_test(uint8_t *destip, int16_t destport);
+extern void loop_tcp_client_test(uint8_t *destip, int16_t destport);
 #elif defined(TEST4)
-void http_server_test(int16_t port);
+extern void ping_client_test(uint8_t *destip);
+//void http_server_test(int16_t port);
 #endif
 /* Private defines -----------------------------------------------------------*/
 #define SEPARATOR            "=============================================\r\n"
@@ -179,11 +180,15 @@ void main(void)
    loop_tcp_server_test(port_no);
 #elif defined(TEST3) 
    {
-      uint8_t destip[4] = { 192, 168, 1, 67 };
+      uint8_t destip[4] = { 192, 168, 1, 10 };
       loop_tcp_client_test(destip, port_no);
    }
 #elif defined(TEST4)
-   http_server_test(port_no);
+   {
+      uint8_t destip[4] = { 192, 168, 1, 68 };
+      ping_client_test( destip );      
+   }
+   //http_server_test(port_no);
 #endif   
 }
     

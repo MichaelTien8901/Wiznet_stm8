@@ -121,8 +121,10 @@ int8_t socket(uint8_t sn, uint8_t protocol, uint16_t port, uint8_t flag)
       case Sn_MR_UDP :
       case Sn_MR_MACRAW :
          break;
+//   #if ( _WIZCHIP_ < 5200 )
+      case Sn_MR_IPRAW:
+         break;
    #if ( _WIZCHIP_ < 5200 )
-      case Sn_MR_IPRAW :
       case Sn_MR_PPPoE :
          break;
    #endif
@@ -497,6 +499,7 @@ int32_t sendto(uint8_t sn, uint8_t * buf, uint16_t len, uint8_t * addr, uint16_t
    {
       case Sn_MR_UDP:
       case Sn_MR_MACRAW:
+      case Sn_MR_IPRAW:
          break;
       default:
          return SOCKERR_SOCKMODE;
@@ -516,7 +519,7 @@ int32_t sendto(uint8_t sn, uint8_t * buf, uint16_t len, uint8_t * addr, uint16_t
    if(taddr == 0) 				return SOCKERR_IPINVALID;
    if(port == 0)              return SOCKERR_PORTZERO;
    tmp = getSn_SR(sn);
-   if(tmp != SOCK_MACRAW && tmp != SOCK_UDP) return SOCKERR_SOCKSTATUS;
+   if(tmp != SOCK_MACRAW && tmp != SOCK_UDP && tmp != SOCK_IPRAW ) return SOCKERR_SOCKSTATUS;
       
    setSn_DIPR(sn,addr);
    setSn_DPORT(sn,port);      
@@ -606,9 +609,10 @@ int32_t recvfrom(uint8_t sn, uint8_t * buf, uint16_t len, uint8_t * addr, uint16
    {
       case Sn_MR_UDP:
       case Sn_MR_MACRAW:
-         break;
-   #if ( _WIZCHIP_ < 5200 )         
       case Sn_MR_IPRAW:
+         break;         
+   #if ( _WIZCHIP_ < 5200 )         
+//      case Sn_MR_IPRAW:
       case Sn_MR_PPPoE:
          break;
    #endif
@@ -704,7 +708,7 @@ int32_t recvfrom(uint8_t sn, uint8_t * buf, uint16_t len, uint8_t * addr, uint16
 			else pack_len = sock_remained_size[sn];
 			wiz_recv_data(sn,buf,pack_len);
 		   break;
-   #if ( _WIZCHIP_ < 5200 )
+//   #if ( _WIZCHIP_ < 5200 )
 		case Sn_MR_IPRAW:
 		   if(sock_remained_size[sn] == 0)
 		   {
@@ -728,7 +732,7 @@ int32_t recvfrom(uint8_t sn, uint8_t * buf, uint16_t len, uint8_t * addr, uint16
 			else pack_len = sock_remained_size[sn];
    		wiz_recv_data(sn, buf, pack_len); // data copy.
 			break;
-   #endif
+//   #endif
       default:
          wiz_recv_ignore(sn, pack_len); // data copy.
          sock_remained_size[sn] = pack_len;

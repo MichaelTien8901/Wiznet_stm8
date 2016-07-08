@@ -27,17 +27,17 @@
 # Segment configuration - section reserved for STVD
 #<BEGIN SEGMENT_CONF>
 # Segment Code,Constants:
-+seg .const -b 0x8080 -m 0x7f80 -n .const -it 
-+seg .text -a .const -n .text 
++seg .const -b 0x8080 -m 0x7f80 -n .const -it
++seg .text -a .const -n .text
 # Segment Eeprom:
-+seg .eeprom -b 0x4000 -m 0x400 -n .eeprom 
++seg .eeprom -b 0x4000 -m 0x400 -n .eeprom
 # Segment Zero Page:
-+seg .bsct -b 0x0 -m 0x100 -n .bsct 
-+seg .ubsct -a .bsct -n .ubsct 
-+seg .bit -a .ubsct -n .bit -id 
-+seg .share -a .bit -n .share -is 
++seg .bsct -b 0x0 -m 0x100 -n .bsct
++seg .ubsct -a .bsct -n .ubsct
++seg .bit -a .ubsct -n .bit -id
++seg .share -a .bit -n .share -is
 # Segment Ram:
-+seg .data -b 0x100 -m 0x500 -n .data 
++seg .data -b 0x100 -m 0x500 -n .data
 +seg .bss -a .data -n .bss
 #<END SEGMENT_CONF>
 
@@ -58,6 +58,7 @@ Debug\stm8s_clk.o
 Debug\stm8s_gpio.o
 Debug\stm8s_spi.o
 Debug\stm8s_uart2.o
+Debug\ping.o
 Debug\main.o
 Debug\setup.o
 Debug\stm8s_it.o

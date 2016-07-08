@@ -58,6 +58,7 @@ Release\stm8s_clk.o
 Release\stm8s_gpio.o
 Release\stm8s_spi.o
 Release\stm8s_uart2.o
+Release\ping.o
 Release\main.o
 Release\setup.o
 Release\stm8s_it.o

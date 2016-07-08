@@ -30,3 +30,10 @@ void loop_tcp_client_test(uint8_t *destip, int16_t destport)
       loopback_tcpc(0, buffer, destip, destport);
    }
 }
+void ping_client_test(uint8_t *destip)
+{
+   extern uint8_t ping_auto(uint8_t s, uint8_t *addr);
+   PRINT_STR( "Ping Client Test\r\n" );
+   while(1)
+   ping_auto( 0, destip );
+}
