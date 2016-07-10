@@ -64,42 +64,11 @@ uint8_t wiznet_receive_data(void)
 {
    return wiznet_transfer(0);
 }
-/*******************************************************************************
-* Function Name  : SerialPutChar
-* Description    : Print a character on the HyperTerminal
-* Input          : - c: The character to be printed
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SerialPutChar(char c)
-{
-    while ((UART2->SR & UART2_SR_TXE ) != UART2_SR_TXE );
-    UART2_SendData8(c);
-}
-
-/*******************************************************************************
-* Function Name  : SerialPutString
-* Description    : Print a string on the HyperTerminal
-* Input          : - s: The string to be printed
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SerialPutString(char *s)
-{
-	while (*s)
-	{
-		SerialPutChar(*s++);
-	}
-}
-
-extern void SerialPutString(char *s);
-#define PRINT_STR SerialPutString
 
 void print_netinfo(wiz_NetInfo netInfo) 
 {
-   char msg[60];
-   PRINT_STR (NETWORK_MSG); 
-   sprintf(msg, 
+   printf(NETWORK_MSG); 
+   printf(
       MAC_MSG, 
       (uint16_t) netInfo.mac[0], 
       (uint16_t) netInfo.mac[1], 
@@ -107,28 +76,25 @@ void print_netinfo(wiz_NetInfo netInfo)
       (uint16_t) netInfo.mac[3], 
       (uint16_t) netInfo.mac[4], 
       (uint16_t) netInfo.mac[5]);
-   PRINT_STR( msg ); 
-   sprintf(msg, 
+   printf(
       IP_MSG, 
       (uint16_t) netInfo.ip[0], 
       (uint16_t) netInfo.ip[1], 
       (uint16_t) netInfo.ip[2], 
       (uint16_t) netInfo.ip[3]);
-   PRINT_STR( msg ); 
-   sprintf(msg, 
+   printf( 
       NETMASK_MSG, 
       (uint16_t) netInfo.sn[0], 
       (uint16_t) netInfo.sn[1], 
       (uint16_t) netInfo.sn[2], 
       (uint16_t) netInfo.sn[3]);
-   PRINT_STR( msg ); 
-   sprintf(msg, 
+   printf(
       GW_MSG, 
       (uint16_t) netInfo.gw[0], 
       (uint16_t) netInfo.gw[1], 
       (uint16_t) netInfo.gw[2], 
       (uint16_t) netInfo.gw[3]);
-   PRINT_STR( msg ); 
+//   PRINT_STR( msg ); 
 }
 
 
@@ -185,7 +151,7 @@ void main(void)
    }
 #elif defined(TEST4)
    {
-      uint8_t destip[4] = { 192, 168, 1, 68 };
+      uint8_t destip[4] = { 192, 168, 1, 20 };
       ping_client_test( destip );      
    }
    //http_server_test(port_no);

@@ -7,9 +7,9 @@
 /* Loopback test debug message printout enable */
 #define	_LOOPBACK_DEBUG_
 
-/* DATA_BUF_SIZE define for Loopback example */
-#ifndef DATA_BUF_SIZE
-	#define DATA_BUF_SIZE			2048
+/* LOOPBACK_DATA_BUF_SIZE define for Loopback example */
+#ifndef LOOPBACK_DATA_BUF_SIZE
+	#define LOOPBACK_DATA_BUF_SIZE			2048
 #endif
 
 /************************/

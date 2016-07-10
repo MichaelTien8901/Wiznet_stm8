@@ -5,8 +5,8 @@
 
 #if LOOPBACK_MODE == LOOPBACK_MAIN_NOBLCOK
 
-void SerialPutString(char *s);
-#define PRINT_STR SerialPutString
+//void SerialPutString(char *s);
+//#define PRINT_STR SerialPutString
 
 int32_t loopback_tcps(uint8_t sn, uint8_t* buf, uint16_t port)
 {
@@ -16,7 +16,7 @@ int32_t loopback_tcps(uint8_t sn, uint8_t* buf, uint16_t port)
 #ifdef _LOOPBACK_DEBUG_
    uint8_t destip[4];
    uint16_t destport;
-char msg[60];   
+//char msg[60];   
 #endif
 
    switch(getSn_SR(sn))
@@ -28,18 +28,17 @@ char msg[60];
 			getSn_DIPR(sn, destip);
 			destport = getSn_DPORT(sn);
  
-			sprintf(msg, "%d:Connected - %d.%d.%d.%d : %u\r\n",
+			printf("%d:Connected - %d.%d.%d.%d : %u\r\n",
             (int16_t) sn, 
             (int16_t) destip[0], (int16_t) destip[1], 
             (int16_t) destip[2], (int16_t) destip[3], 
             destport);
-         PRINT_STR(msg);
 #endif
 			setSn_IR(sn,Sn_IR_CON);
          }
 		 if((size = getSn_RX_RSR(sn)) > 0) // Don't need to check SOCKERR_BUSY because it doesn't not occur.
          {
-			if(size > DATA_BUF_SIZE) size = DATA_BUF_SIZE;
+			if(size > LOOPBACK_DATA_BUF_SIZE) size = LOOPBACK_DATA_BUF_SIZE;
 			ret = recv(sn, buf, size);
 
 			if(ret <= 0) return ret;      // check SOCKERR_BUSY & SOCKERR_XXX. For showing the occurrence of SOCKERR_BUSY.
@@ -63,14 +62,12 @@ char msg[60];
 #endif
          if((ret = disconnect(sn)) != SOCK_OK) return ret;
 #ifdef _LOOPBACK_DEBUG_
-         sprintf(msg, "%d:Socket Closed\r\n", (int16_t) sn);
-         PRINT_STR(msg);
+         printf("%d:Socket Closed\r\n", (int16_t) sn);
 #endif
          break;
       case SOCK_INIT :
 #ifdef _LOOPBACK_DEBUG_
-    	 sprintf(msg, "%d:Listen, TCP server loopback, port [%d]\r\n", (int16_t) sn, port);
-       PRINT_STR(msg);
+    	 printf("%d:Listen, TCP server loopback, port [%d]\r\n", (int16_t) sn, port);
 #endif
          if( (ret = listen(sn)) != SOCK_OK) return ret;
          break;
@@ -80,7 +77,7 @@ char msg[60];
 #endif
          if((ret = socket(sn, Sn_MR_TCP, port, 0x00)) != sn) return ret;
 #ifdef _LOOPBACK_DEBUG_
-         //PRINTF("%d:Socket opened\r\n",sn);
+         printf("%d:Socket opened\r\n",sn);
 #endif
          break;
       default:
@@ -94,9 +91,6 @@ int32_t loopback_tcpc(uint8_t sn, uint8_t* buf, uint8_t* destip, uint16_t destpo
 {
    int32_t ret; // return value for SOCK_ERRORs
    uint16_t size = 0, sentsize=0;
-#ifdef _LOOPBACK_DEBUG_
-   char msg[60];
-#endif
    // Destination (TCP Server) IP info (will be connected)
    // >> loopback_tcpc() function parameter
    // >> Ex)
@@ -114,14 +108,13 @@ int32_t loopback_tcpc(uint8_t sn, uint8_t* buf, uint8_t* destip, uint16_t destpo
          if(getSn_IR(sn) & Sn_IR_CON)	// Socket n interrupt register mask; TCP CON interrupt = connection with peer is successful
          {
 #ifdef _LOOPBACK_DEBUG_
-			sprintf(msg, "%d:Connected to - %d.%d.%d.%d : %u\r\n",
+			printf("%d:Connected to - %d.%d.%d.%d : %u\r\n",
             (int16_t) sn, 
             (int16_t) destip[0], 
             (int16_t) destip[1], 
             (int16_t) destip[2], 
             (int16_t) destip[3], 
             destport);
-         PRINT_STR(msg);
 #endif
 			setSn_IR(sn, Sn_IR_CON);  // this interrupt should be write the bit cleared to '1'
          }
@@ -131,7 +124,7 @@ int32_t loopback_tcpc(uint8_t sn, uint8_t* buf, uint8_t* destip, uint16_t destpo
          //////////////////////////////////////////////////////////////////////////////////////////////
 		 if((size = getSn_RX_RSR(sn)) > 0) // Sn_RX_RSR: Socket n Received Size Register, Receiving data length
          {
-			if(size > DATA_BUF_SIZE) size = DATA_BUF_SIZE; // DATA_BUF_SIZE means user defined buffer size (array)
+			if(size > LOOPBACK_DATA_BUF_SIZE) size = LOOPBACK_DATA_BUF_SIZE; // LOOPBACK_DATA_BUF_SIZE means user defined buffer size (array)
 			ret = recv(sn, buf, size); // Data Receive process (H/W Rx socket buffer -> User's buffer)
 
 			if(ret <= 0) return ret; // If the received data length <= 0, receive failed and process end
@@ -158,21 +151,19 @@ int32_t loopback_tcpc(uint8_t sn, uint8_t* buf, uint8_t* destip, uint16_t destpo
 #endif
          if((ret=disconnect(sn)) != SOCK_OK) return ret;
 #ifdef _LOOPBACK_DEBUG_
-         sprintf(msg, "%d:Socket Closed\r\n", (int16_t) sn);
-         PRINT_STR(msg);
+         printf("%d:Socket Closed\r\n", (int16_t) sn);
 #endif
          break;
 
       case SOCK_INIT :
 #ifdef _LOOPBACK_DEBUG_
-    	 sprintf(msg, "%d:Try to connect to the %d.%d.%d.%d : %d\r\n", 
+    	   printf("%d:Try to connect to the %d.%d.%d.%d : %d\r\n", 
          (int16_t) sn, 
          (int16_t) destip[0], 
          (int16_t) destip[1], 
          (int16_t) destip[2], 
          (int16_t) destip[3], 
          (int16_t) destport);
-       PRINT_STR(msg);
 #endif
     	 if( (ret = connect(sn, destip, destport)) != SOCK_OK) return ret;	//	Try to TCP connect to the TCP server (destination)
          break;
@@ -198,22 +189,18 @@ int32_t loopback_udps(uint8_t sn, uint8_t* buf, uint16_t port)
    uint16_t size, sentsize;
    uint8_t  destip[4];
    uint16_t destport;
-#ifdef _LOOPBACK_DEBUG_
-   char msg[60];
-#endif
 
    switch(getSn_SR(sn))
    {
       case SOCK_UDP :
          if((size = getSn_RX_RSR(sn)) > 0)
          {
-            if(size > DATA_BUF_SIZE) size = DATA_BUF_SIZE;
+            if(size > LOOPBACK_DATA_BUF_SIZE) size = LOOPBACK_DATA_BUF_SIZE;
             ret = recvfrom(sn, buf, size, destip, (uint16_t*)&destport);
             if(ret <= 0)
             {
 #ifdef _LOOPBACK_DEBUG_
-               sprintf(msg, "%d: recvfrom error. %ld\r\n",sn,ret);
-               PRINT_STR(msg);
+               printf("%d: recvfrom error. %ld\r\n",sn,ret);
 #endif
                return ret;
             }
@@ -225,8 +212,7 @@ int32_t loopback_udps(uint8_t sn, uint8_t* buf, uint16_t port)
                if(ret < 0)
                {
 #ifdef _LOOPBACK_DEBUG_
-                  sprintf(msg, "%d: sendto error. %ld\r\n",sn,ret);
-                  PRINT_STR(msg);
+                  printf("%d: sendto error. %ld\r\n",sn,ret);
 #endif
                   return ret;
                }
@@ -241,8 +227,7 @@ int32_t loopback_udps(uint8_t sn, uint8_t* buf, uint16_t port)
          if((ret = socket(sn, Sn_MR_UDP, port, 0x00)) != sn)
             return ret;
 #ifdef _LOOPBACK_DEBUG_
-         sprintf(msg, "%d:Opened, UDP loopback, port [%d]\r\n", (int16_t) sn, (int16_t) port);
-         PRINT_STR(msg);
+         printf("%d:Opened, UDP loopback, port [%d]\r\n", (int16_t) sn, (int16_t) port);
 #endif
          break;
       default :

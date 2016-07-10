@@ -6,7 +6,7 @@
 
 void HAL_Delay(uint16_t count);
 void SerialPutString(char *s);
-#define PRINT_STR SerialPutString
+//#define PRINT_STR SerialPutString
 #define GREETING_MSG 		 "Well done guys! Welcome to the IoT world. Bye!\r\n"
 #define CONN_ESTABLISHED_MSG "Connection established with remote IP: %d.%d.%d.%d:%u\r\n"
 #define SENT_MESSAGE_MSG	 "Sent a message. Let's close the socket!\r\n"
@@ -27,7 +27,7 @@ void SerialPutString(char *s);
 void socket_test(int16_t port_no)
 {
    uint8_t retVal, sockStatus;
-   char msg[60];   
+//   char msg[60];   
    
    while(1) {
       // reconnect:
@@ -47,26 +47,22 @@ void socket_test(int16_t port_no)
                  /* Retrieving remote peer IP and port number */
                   getsockopt(0, SO_DESTIP, remoteIP);
                   getsockopt(0, SO_DESTPORT, (uint8_t*)&remotePort);
-                  sprintf(msg, CONN_ESTABLISHED_MSG, (uint16_t) remoteIP[0], (uint16_t) remoteIP[1], (uint16_t) remoteIP[2], (uint16_t) remoteIP[3], remotePort);
-                  PRINT_STR(msg);
+                  printf(CONN_ESTABLISHED_MSG, (uint16_t) remoteIP[0], (uint16_t) remoteIP[1], (uint16_t) remoteIP[2], (uint16_t) remoteIP[3], remotePort);
                   /* Let's send a welcome message and closing socket */
                   if(retVal = send(0, GREETING_MSG, strlen(GREETING_MSG)) == (int16_t)strlen(GREETING_MSG))
-                     PRINT_STR(SENT_MESSAGE_MSG);
+                     printf(SENT_MESSAGE_MSG);
                   else { /* Ops: something went wrong during data transfer */
-                     sprintf(msg, WRONG_RETVAL_MSG, retVal);
-                     PRINT_STR(msg);
+                     printf(WRONG_RETVAL_MSG, retVal);
                   }
                } else { /* Something went wrong with remote peer, maybe the connection was closed unexpectedly */
-                  sprintf(msg, WRONG_STATUS_MSG, sockStatus);
-                  PRINT_STR(msg);
+                  printf(WRONG_STATUS_MSG, sockStatus);
                }
                break;
             }
          } else /* Ops: socket not in LISTEN mode. Something went wrong */
-           PRINT_STR(LISTEN_ERR_MSG);
+           printf(LISTEN_ERR_MSG);
       } else { /* Can't open the socket. This means something is wrong with W5100 configuration: maybe SPI issue? */
-         sprintf(msg, WRONG_RETVAL_MSG, retVal);
-         PRINT_STR(msg);
+         printf(WRONG_RETVAL_MSG, retVal);
       }   
       /* We close the socket and start a connection again */
       disconnect(0);

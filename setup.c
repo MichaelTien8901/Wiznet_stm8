@@ -49,3 +49,30 @@ void HardwareSetup(void)
    enableInterrupts();
 
 }
+
+#ifdef _RAISONANCE_
+	#define PUTCHAR_PROTOTYPE int putchar (char c)
+	#define GETCHAR_PROTOTYPE int getchar (void)
+#elif defined (_COSMIC_)
+	#define PUTCHAR_PROTOTYPE char putchar (char c)
+	#define GETCHAR_PROTOTYPE char getchar (void)
+#else   // _IAR_ 
+	#define PUTCHAR_PROTOTYPE int putchar (int c)
+	#define GETCHAR_PROTOTYPE int getchar (void)
+#endif  // _RAISONANCE_
+
+void SerialPutChar(char c)
+{
+    while ((UART2->SR & UART2_SR_TXE ) != UART2_SR_TXE );
+    UART2_SendData8(c);
+}
+/**
+  * @brief Retargets the C library printf function to the UART.
+  * @param c Character to send
+  * @retval char Character sent
+  */
+unsigned char putchar (unsigned char c)
+{
+  SerialPutChar(c);
+  return (c);
+}

@@ -1,6 +1,6 @@
 #include "wizchip_conf.h"
 
-#define BUF_LEN 32
+#define PING_BUF_LEN 32
 #define PING_REQUEST 8
 #define PING_REPLY 0
 #define CODE_ZERO 0
@@ -19,7 +19,7 @@ typedef struct pingmsg
   int16_t  CheckSum;	// Check sum
   int16_t  ID;	            // Identification
   int16_t  SeqNum; 	// Sequence Number
-  int8_t	 Data[BUF_LEN];// Ping Data  : 1452 = IP RAW MTU - sizeof(Type+Code+CheckSum+ID+SeqNum)
+  int8_t	 Data[PING_BUF_LEN];// Ping Data  : 1452 = IP RAW MTU - sizeof(Type+Code+CheckSum+ID+SeqNum)
 } PINGMSGR;
 
 

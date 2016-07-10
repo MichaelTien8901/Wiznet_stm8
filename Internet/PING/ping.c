@@ -11,12 +11,6 @@ uint8_t ping_reply_received = 0;
 //uint8_t rep=0;
 void wait_1ms(unsigned int cnt);
 
-#ifdef PING_DEBUG
-void SerialPutString(char *s);
-#define PRINT_STR SerialPutString
-char msg[60];
-#endif
-
 uint8_t ping_auto(uint8_t s, uint8_t *addr)
 {
 uint8_t req=0;
@@ -35,8 +29,7 @@ uint8_t rep=0;
 				if(socket(s,Sn_MR_IPRAW,3000,0)!=s){ 
             //if fail then Error
 #ifdef PING_DEBUG
-					sprintf( msg, "\r\n socket %d fail r\n",s);
-               PRINT_STR(msg);
+					printf("\r\n socket %d fail r\n",s);
 					return SOCKET_ERROR;
 #endif
 				}
@@ -57,8 +50,7 @@ uint8_t rep=0;
     				else if(cnt > 100)
     				{
 #ifdef PINT_DEBUG                  
-    					sprintf( msg, "Request Time out. \r\n");
-                  PRINT_STR( msg );
+    					printf( "Request Time out. \r\n");
 #endif                  
     					cnt = 0;
     					break;
@@ -78,10 +70,9 @@ uint8_t rep=0;
 		}
 #ifdef PING_DEBUG
 		if(req>=3){
-	  		sprintf( msg, "Ping Request = %d, PING_Reply = %d\r\n",
+	  		printf("Ping Request = %d, PING_Reply = %d\r\n",
             (int16_t) req,
             (int16_t) rep);
-         PRINT_STR(msg);
          close(s);
 	  		if(rep == req)
 	  			return SUCCESS;
@@ -104,8 +95,7 @@ uint8_t rep=0;
       if(i!=0){
          /* Output count number */
 #ifdef PING_DEBUG         
-         sprintf( msg, "\r\nNo.%d\r\n",   (i-1));
-         PRINT_STR(msg);
+         printf( "\r\nNo.%d\r\n",   (i-1));
 #endif         
       }
       
@@ -120,8 +110,7 @@ uint8_t rep=0;
             // open the SOCKET with IPRAW mode
 				if(socket(s,Sn_MR_IPRAW,3000,0)!=s){ // if fail then Error
 #ifdef PING_DEBUG
-					sprintf( msg, "\r\n socket %d fail r\n",   (s)) ;
-               PRINT_STR( msg );
+					printf( "\r\n socket %d fail r\n",   (s)) ;
 					return SOCKET_ERROR;
 #endif
 				}	
@@ -146,8 +135,7 @@ uint8_t rep=0;
                /* wait_time for 2 seconds, Break on fail*/
                if ( (cnt > 100) ) {
 #ifdef PING_DEBUG
-                  sprintf( msg, "\r\nRequest Time out. \r\n") ;
-                  PRINT_STR( msg );
+                  printf( "\r\nRequest Time out. \r\n") ;
 #endif                     
                   cnt = 0;
                   break;
@@ -160,8 +148,7 @@ uint8_t rep=0;
       }
 #ifdef PING_DEBUG
   		if(req>=pCount){
-         sprintf(msg, "Ping Request = %d, PING_Reply = %d\r\n",req,rep);
-         PRINT_STR( msg );         
+         printf("Ping Request = %d, PING_Reply = %d\r\n",req,rep);
          if(rep == req)
             return SUCCESS;
          else
@@ -184,7 +171,7 @@ uint8_t ping_request(uint8_t s, uint8_t *addr){
 	//size = 32;                                 // set Data size
 
 	/* Fill in Data[]  as size of BIF_LEN (Default = 32)*/
-  	for(i = 0 ; i < BUF_LEN; i++){	                                
+  	for(i = 0 ; i < PING_BUF_LEN; i++){	                                
 		PingRequest.Data[i] = (i) % 8;		  //'0'~'8' number into ping-request's data 	
 	}
 	 /* Do checksum of Ping Request */
@@ -194,23 +181,21 @@ uint8_t ping_request(uint8_t s, uint8_t *addr){
      /* sendto ping_request to destination */
 	if(sendto(s,(uint8_t *)&PingRequest,sizeof(PingRequest),addr,3000)==0){  // Send Ping-Request to the specified peer.
 #ifdef PING_DEBUG      
-	  	 PRINT_STR( "\r\n Fail to send ping-reply packet  r\n");
+	  	 printf( "\r\n Fail to send ping-reply packet  r\n");
        
 #endif       
 	}else{
 #ifdef PING_DEBUG   
-      PRINT_STR( "Send Ping Request  to Destination (");
-      sprintf( msg, "%d.%d.%d.%d )",   
+      printf( "Send Ping Request  to Destination (");
+      printf( "%d.%d.%d.%d )",   
          (int16_t) addr[0],  
          (int16_t) addr[1],  
          (int16_t) addr[2],  
          (int16_t) addr[3]);
-      PRINT_STR( msg );
-      sprintf( msg, " ID:%x  SeqNum:%x CheckSum:%x\r\n",   
+      printf( " ID:%x  SeqNum:%x CheckSum:%x\r\n",   
          htons(PingRequest.ID),  
          htons(PingRequest.SeqNum),  
          htons(PingRequest.CheckSum)) ;
-      PRINT_STR( msg );
 #endif         
 	}
 	return 0;
@@ -241,14 +226,13 @@ uint8_t ping_reply(uint8_t s, uint8_t *addr,  uint16_t rlen)
 				tmp_checksum = ~checksum(data_buf,len);
 				if(tmp_checksum != 0xffff) {
 #ifdef PING_DEBUG               
-					sprintf( msg, "tmp_checksum = %x\r\n",tmp_checksum);
-               PRINT_STR( msg );
+					printf( "tmp_checksum = %x\r\n",tmp_checksum);
 #endif               
             }   
 				else{
 					/*  Output the Destination IP and the size of the Ping Reply Message*/
 #ifdef PING_DEBUG   
-				    	sprintf(msg, 
+				    	printf( 
                   "Reply from %d.%d.%d.%d  ID:%x SeqNum:%x  :data size %d bytes\r\n",
                      (int16_t) addr[0],  
                      (int16_t) addr[1],  
@@ -256,8 +240,7 @@ uint8_t ping_reply(uint8_t s, uint8_t *addr,  uint16_t rlen)
                      (int16_t) addr[3],  
                      htons(PingReply.ID),  htons(PingReply.SeqNum),  
                      (int16_t) (rlen+6));
-                  PRINT_STR( msg );   
-				    	PRINT_STR("\r\n");
+				    	printf("\r\n");
 #endif                  
 				    	/*  SET ping_reply_receiver to '1' and go out the while_loop (waitting for ping reply)*/
 					ping_reply_received =1;
@@ -281,10 +264,9 @@ uint8_t ping_reply(uint8_t s, uint8_t *addr,  uint16_t rlen)
 
 						if(tmp_checksum != PingReply.CheckSum){
 #ifdef PING_DEBUG                     
-							sprintf( msg, " \n CheckSum is in correct %x shold be %x \n",   
+							printf( " \n CheckSum is in correct %x shold be %x \n",   
                         tmp_checksum,  
                         htons(PingReply.CheckSum)) ;
-                     PRINT_STR( msg );
 #endif                     
 						}else{
 							//printf( "\r\n Checksum is correct  \r\n") ;					
@@ -292,7 +274,7 @@ uint8_t ping_reply(uint8_t s, uint8_t *addr,  uint16_t rlen)
 		
 					/*  Output the Destination IP and the size of the Ping Reply Message*/
 #ifdef PING_DEBUG                     
-				    	sprintf( msg, "Request from %d.%d.%d.%d  ID:%x SeqNum:%x  :data size %d bytes\r\n",
+				    	printf( "Request from %d.%d.%d.%d  ID:%x SeqNum:%x  :data size %d bytes\r\n",
 						  (int16_t) addr[0],  
                     (int16_t) addr[1],  
                     (int16_t) addr[2],  
@@ -300,7 +282,6 @@ uint8_t ping_reply(uint8_t s, uint8_t *addr,  uint16_t rlen)
                     (PingReply.ID),  
                     (PingReply.SeqNum),  
                     (int16_t)(rlen+6));
-                  PRINT_STR( msg );
 #endif                    
 					/*  SET ping_reply_receiver to '1' and go out the while_loop (waitting for ping reply)*/		   
 					ping_reply_received =1;
@@ -308,7 +289,7 @@ uint8_t ping_reply(uint8_t s, uint8_t *addr,  uint16_t rlen)
 			}
 			else{      
 #ifdef PING_DEBUG                     
- 					 PRINT_STR(" Unkonwn msg. \n");
+ 					 printf(" Unkonwn msg. \n");
 #endif                
 			}
 
