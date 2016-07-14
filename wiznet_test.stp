@@ -83,10 +83,10 @@ String.100.0=STM8S105C6
 
 [Root.Config.0.Settings.3]
 String.2.0=Compiling $(InputFile)...
-String.3.0=cxstm8 +modsl0 -customUser+split -customDebCompat -customC-pp -customLst -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dDATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
+String.3.0=cxstm8 +modsl0 -customUser+split -customDebCompat -customC -pp -pc99 -customLst -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dLOOPBACK_DATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
 String.4.0=$(IntermPath)$(InputName).$(ObjectExt)
 String.5.0=$(IntermPath)$(InputName).ls
-String.6.0=2016,7,7,17,7,4
+String.6.0=2016,7,14,12,43,32
 
 [Root.Config.0.Settings.4]
 String.2.0=Assembling $(InputFile)...
@@ -137,7 +137,7 @@ String.2.0=Performing Custom Build on $(InputFile)
 String.6.0=2012,6,22,10,19,51
 
 [Root.Config.1.Settings.0]
-String.6.0=2012,7,1,19,1,6
+String.6.0=2016,7,14,12,57,0
 String.100.0=ST Assembler Linker
 String.100.1=ST7 Cosmic
 String.100.2=STM8 Cosmic
@@ -150,7 +150,7 @@ String.104.0=Hstm8
 String.105.0=Lib
 String.106.0=Release
 String.107.0=$(ProjectSFile).elf
-Int.108=0
+Int.108=1
 
 [Root.Config.1.Settings.1]
 String.6.0=2016,7,1,16,2,18
@@ -166,10 +166,10 @@ String.100.0=STM8S105C6
 
 [Root.Config.1.Settings.3]
 String.2.0=Compiling $(InputFile)...
-String.3.0=cxstm8 +modsl -customUser+split -customC-pp -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dDATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iethernet\w5500 -iethernet -i..\..\..\stm8s\libraries\stm8s_stdperiph_driver\inc -iinc -isrc $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
+String.3.0=cxstm8 +modsl0 -customUser+split -customC -pp -pc99 -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dLOOPBACK_DATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
 String.4.0=$(IntermPath)$(InputName).$(ObjectExt)
 String.5.0=$(IntermPath)$(InputName).ls
-String.6.0=2016,7,7,17,7,4
+String.6.0=2016,7,14,13,4,46
 
 [Root.Config.1.Settings.4]
 String.2.0=Assembling $(InputFile)...
@@ -185,11 +185,11 @@ String.8.0=
 
 [Root.Config.1.Settings.6]
 String.2.0=Running Linker
-String.3.0=clnk $(ToolsetLibOpts) -o $(OutputPath)$(TargetSName).sm8 -fakeInteger -fakeOutFile$(ProjectSFile).elf -fakeRunConv -fakeStartupcrtsi.sm8 -fakeAutoGen -fakeVectFilestm8_interrupt_vector.c -customMapFile -customMapFile-m$(OutputPath)$(TargetSName).map -customMapAddress -customCfgFile$(OutputPath)$(TargetSName).lkf 
+String.3.0=clnk $(ToolsetLibOpts) -o $(OutputPath)$(TargetSName).sm8 -fakeInteger -fakeOutFile$(ProjectSFile).elf -fakeRunConv -fakeStartupcrtsi0.sm8 -fakeAutoGen -fakeVectFilestm8_interrupt_vector.c -customMapFile -customMapFile-m$(OutputPath)$(TargetSName).map -customMapAddress -customCfgFile$(OutputPath)$(TargetSName).lkf 
 String.3.1=cvdwarf $(OutputPath)$(TargetSName).sm8 -fakeVectAddr0x8000
 String.4.0=$(OutputPath)$(TargetFName)
 String.5.0=
-String.6.0=2016,7,1,16,0,52
+String.6.0=2016,7,14,12,52,37
 String.100.0=
 String.101.0=crtsi.st7
 String.102.0=+seg .const -b 0x8080 -m 0x7f80 -n .const -it 
@@ -247,10 +247,10 @@ Int.1=0
 
 [Root.Source Files.Config.0.Settings.1]
 String.2.0=Compiling $(InputFile)...
-String.3.0=cxstm8 +modsl0 -customUser+split -customDebCompat -customC-pp -customLst -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dDATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
+String.3.0=cxstm8 +modsl0 -customUser+split -customDebCompat -customC -pp -pc99 -customLst -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dLOOPBACK_DATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
 String.4.0=$(IntermPath)$(InputName).$(ObjectExt)
 String.5.0=$(IntermPath)$(InputName).ls
-String.6.0=2016,7,7,17,7,4
+String.6.0=2016,7,14,12,43,32
 
 [Root.Source Files.Config.0.Settings.2]
 String.2.0=Assembling $(InputFile)...
@@ -274,10 +274,10 @@ Int.1=0
 
 [Root.Source Files.Config.1.Settings.1]
 String.2.0=Compiling $(InputFile)...
-String.3.0=cxstm8 +modsl -customUser+split -customC-pp -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dDATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iethernet\w5500 -iethernet -i..\..\..\stm8s\libraries\stm8s_stdperiph_driver\inc -iinc -isrc $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
+String.3.0=cxstm8 +modsl0 -customUser+split -customC -pp -pc99 -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dLOOPBACK_DATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
 String.4.0=$(IntermPath)$(InputName).$(ObjectExt)
 String.5.0=$(IntermPath)$(InputName).ls
-String.6.0=2016,7,7,17,7,4
+String.6.0=2016,7,14,13,4,46
 
 [Root.Source Files.Config.1.Settings.2]
 String.2.0=Assembling $(InputFile)...
@@ -361,15 +361,20 @@ PathName=fw\src\stm8s_uart2.c
 [Root.Source Files.Source Files\Internet]
 ElemType=Folder
 PathName=Source Files\Internet
-Child=Root.Source Files.Source Files\Internet.internet\ping\ping.c
+Child=Root.Source Files.Source Files\Internet.Source Files\Internet\Ping
 Next=Root.Source Files.main.c
 
-[Root.Source Files.Source Files\Internet.internet\ping\ping.c]
+[Root.Source Files.Source Files\Internet.Source Files\Internet\Ping]
+ElemType=Folder
+PathName=Source Files\Internet\Ping
+Child=Root.Source Files.Source Files\Internet.Source Files\Internet\Ping.internet\ping\ping.c
+
+[Root.Source Files.Source Files\Internet.Source Files\Internet\Ping.internet\ping\ping.c]
 ElemType=File
 PathName=internet\ping\ping.c
-Next=Root.Source Files.Source Files\Internet.internet\ping\ping.h
+Next=Root.Source Files.Source Files\Internet.Source Files\Internet\Ping.internet\ping\ping.h
 
-[Root.Source Files.Source Files\Internet.internet\ping\ping.h]
+[Root.Source Files.Source Files\Internet.Source Files\Internet\Ping.internet\ping\ping.h]
 ElemType=File
 PathName=internet\ping\ping.h
 
@@ -434,10 +439,10 @@ Int.1=0
 
 [Root.Include Files.Config.0.Settings.1]
 String.2.0=Compiling $(InputFile)...
-String.3.0=cxstm8 +modsl0 -customUser+split -customDebCompat -customC-pp -customLst -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dDATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
+String.3.0=cxstm8 +modsl0 -customUser+split -customDebCompat -customC -pp -pc99 -customLst -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dLOOPBACK_DATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
 String.4.0=$(IntermPath)$(InputName).$(ObjectExt)
 String.5.0=$(IntermPath)$(InputName).ls
-String.6.0=2016,7,7,17,7,4
+String.6.0=2016,7,14,12,43,32
 
 [Root.Include Files.Config.0.Settings.2]
 String.2.0=Assembling $(InputFile)...
@@ -461,10 +466,10 @@ Int.1=0
 
 [Root.Include Files.Config.1.Settings.1]
 String.2.0=Compiling $(InputFile)...
-String.3.0=cxstm8 +modsl -customUser+split -customC-pp -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dDATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iethernet\w5500 -iethernet -i..\..\..\stm8s\libraries\stm8s_stdperiph_driver\inc -iinc -isrc $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
+String.3.0=cxstm8 +modsl0 -customUser+split -customC -pp -pc99 -dSTM8S105 -dHSE_VALUE=16000000 -dHSE_Value -dLOOPBACK_DATA_BUF_SIZE=512 -iinternet\ping -iapplication\loopback -iinc -isrc -ifw\inc -iethernet\w5500 -iethernet $(ToolsetIncOpts) -cl$(IntermPath) -co$(IntermPath) $(InputFile)
 String.4.0=$(IntermPath)$(InputName).$(ObjectExt)
 String.5.0=$(IntermPath)$(InputName).ls
-String.6.0=2016,7,7,17,7,4
+String.6.0=2016,7,14,13,4,46
 
 [Root.Include Files.Config.1.Settings.2]
 String.2.0=Assembling $(InputFile)...

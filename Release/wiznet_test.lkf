@@ -44,7 +44,7 @@
 
 # Startup file - section reserved for STVD
 #<BEGIN STARTUP_FILE>
-crtsi.sm8
+crtsi0.sm8
 #<END STARTUP_FILE>
 
 
@@ -69,8 +69,8 @@ Release\test2.o
 
 # Library list - section reserved for STVD
 #<BEGIN LIBRARY_FILES>
-libisl.sm8
-libm.sm8
+libisl0.sm8
+libm0.sm8
 #<END LIBRARY_FILES>
 
 

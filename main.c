@@ -117,15 +117,15 @@ void reset_wiznet(void)
 }
 void main(void)
 {
-   wiz_NetInfo netInfo = {{0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef},	// Mac address
-                           {192, 168, 1, 192},					// IP address
-                           {255, 255, 255, 0},					// Subnet mask
-                           {192, 168, 1, 254}};					// Gateway address
-// COSMIC C doesn't support this following format                           
-//   wiz_NetInfo netInfo = { .mac 	= {0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef},	// Mac address
-//                          .ip 	= {192, 168, 2, 192},					// IP address
-//                          .sn 	= {255, 255, 255, 0},					// Subnet mask
-//                          .gw 	= {192, 168, 2, 1}};					// Gateway address
+//   wiz_NetInfo netInfo = {{0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef},	// Mac address
+//                           {192, 168, 1, 192},					// IP address
+//                           {255, 255, 255, 0},					// Subnet mask
+//                           {192, 168, 1, 254}};					// Gateway address
+// C99 must be specified in C language 
+   wiz_NetInfo netInfo = { .mac 	= {0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef},	// Mac address
+                          .ip 	= {192, 168, 1, 192},					// IP address
+                          .sn 	= {255, 255, 255, 0},					// Subnet mask
+                          .gw 	= {192, 168, 1, 254}};					// Gateway address
    uint8_t bufSize[] = {2, 2, 2, 2};
    int port_no = 5000;
    HardwareSetup();
